@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ssNepal Flag</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        width: 100%;
+        height: 100vh;
+        background-color: black;
+        display: grid;
+        place-items: center;
+        font-family: cursive;
+        font-weight: bold;
+      }
+
+      h3 {
+        font-size: 40px;
+        font-weight: bold;
+        position: absolute;
+        text-align: center;
+        top: 220px;
+        background: linear-gradient(to right, red, blue);
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .container {
+        background: url("https://upload.wikimedia.org/wikipedia/commons/2/25/New_Map_of_Nepal_District_and_Province.svg");
+        background-repeat: no-repeat;
+        background-size: 300px 200px;
+      }
+      .flag {
+        position: relative;
+        width: 300px;
+        height: 200px;
+        overflow: hidden;
+        transform-origin: left center;
+      }
+
+      .waving {
+        animation: wave 2s infinite linear;
+      }
+
+      @keyframes wave {
+        0% {
+          transform: perspective(600px) rotateY(0deg);
+        }
+        25% {
+          transform: perspective(600px) rotateY(-30deg);
+        }
+        50% {
+          transform: perspective(600px) rotateY(0deg);
+        }
+        75% {
+          transform: perspective(600px) rotateY(30deg);
+        }
+        100% {
+          transform: perspective(600px) rotateY(0deg);
+        }
+      }
+
+      .nepal__bg_blue {
+        position: absolute;
+        top: 40px;
+        border-width: 160px;
+        border-style: solid;
+        border-color: transparent transparent transparent #003893;
+      }
+
+      .nepal__bg_red {
+        position: absolute;
+        top: -146px;
+        left: -154px;
+        border-width: 154px 154px;
+        border-style: solid;
+        border-color: transparent transparent transparent #dc143c;
+      }
+
+      .nepal__bg_blue::before {
+        position: absolute;
+        content: "";
+        top: -150px;
+        left: -160px;
+        border-width: 50px 160px;
+        transform: skewY(17deg);
+        border-style: solid;
+        border-color: transparent transparent transparent #003893;
+      }
+
+      .nepal__bg_red::before {
+        position: absolute;
+        content: "";
+        top: -152px;
+        left: -154px;
+        border-width: 43px 144px;
+        transform: skewY(18deg);
+        border-style: solid;
+        border-color: transparent transparent transparent #dc143c;
+      }
+
+      .nepal__blue_strip {
+        position: absolute;
+        left: 50px;
+        top: 95.5px;
+        transform: skewX(47deg);
+        background-color: #003893;
+        height: 5px;
+        width: 100px;
+      }
+
+      .nepal__blue_strip:nth-child(2) {
+        top: 196px;
+        left: 0;
+        width: 154px;
+      }
+
+      .nepal > img {
+        position: absolute;
+      }
+
+      .nepal > .nepal__top_image {
+        left: 12px;
+        top: 50px;
+      }
+
+      .nepal > .nepal__bottom_image {
+        top: 60%;
+        bottom: 11%;
+        left: 5%;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Nepal</h3>
+
+    <div class="container">
+      <div class="flag nepal" id="flag">
+        <div class="nepal__bg_blue">
+          <div class="nepal__bg_red"></div>
+        </div>
+        <div class="nepal__blue_strip"></div>
+        <div class="nepal__blue_strip"></div>
+
+        <img
+          src="https://imgur.com/llSwP7s.png"
+          height="33"
+          alt=""
+          class="nepal__top_image"
+        />
+        <img
+          src="https://imgur.com/J9OS3X9.png"
+          height="55"
+          alt=""
+          class="nepal__bottom_image"
+        />
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("flag").classList.add("waving");
+    </script>
+  </body>
+</html>

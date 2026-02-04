@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cube Lamp</title>
+    <style>
+      html {
+        background-color: black;
+      }
+
+      .wrapper {
+        height: 95vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform-style: preserve-3d;
+      }
+
+      .scene {
+        width: 250px;
+        height: 250px;
+        transform: rotatex(65deg) rotatez(45deg);
+        transform-style: preserve-3d;
+      }
+
+      .main-cube {
+        transform-style: preserve-3d;
+        position: absolute;
+      }
+
+      .main-cube {
+        width: 250px;
+        height: 250px;
+      }
+
+      .side {
+        border: 8px solid black;
+        position: absolute;
+        box-sizing: border-box;
+      }
+
+      .main-cube__side-top {
+        width: 250px;
+        height: 250px;
+        translate: 0px 0px 125px;
+        background-color: rgb(220, 220, 220);
+        transform-style: preserve-3d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hatching {
+        background-image: repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 15px,
+          #000 10px,
+          #000 20px
+        );
+        background-color: rgb(255, 255, 255);
+      }
+
+      .main-cube__side-front {
+        width: 250px;
+        height: 250px;
+        translate: 125px 0px 0px;
+        transform: rotatey(90deg);
+      }
+
+      .main-cube__side-left {
+        width: 250px;
+        height: 250px;
+        translate: 0px 125px 0px;
+        transform: rotatex(90deg);
+      }
+
+      .main-cube__inside {
+        position: absolute;
+      }
+
+      .main-cube__inside--bottom {
+        translate: 0px 30px -90px;
+        transform: rotatez(90deg);
+        width: 100%;
+        height: calc(70% + 16px);
+        background-color: rgb(255, 255, 255);
+      }
+
+      .rotating-light-bottom {
+        opacity: 0.8;
+        position: absolute;
+        width: 160px;
+        height: 130%;
+        background-color: rgb(193, 193, 193);
+        translate: 46px 150px -81px;
+        background: linear-gradient(
+          180deg,
+          rgb(255, 255, 255) 0%,
+          rgba(255, 255, 255, 0.31) 50%,
+          rgba(255, 0, 0, 0) 100%
+        );
+      }
+
+      .rotating-light-back {
+        opacity: 0.8;
+        position: absolute;
+        width: 165px;
+        height: 130%;
+        transform: rotatey(90deg);
+        background-color: rgb(255, 255, 255);
+        translate: -39px 150px 0px;
+        background: linear-gradient(
+          180deg,
+          rgb(255, 255, 255) 0%,
+          rgba(255, 255, 255, 0.31) 50%,
+          rgba(255, 0, 0, 0) 100%
+        );
+      }
+
+      .main-cube__inside--back {
+        translate: -95px 29px 5px;
+        transform: rotatex(90deg) rotatey(90deg);
+        width: 100%;
+        height: calc(70% + 16px);
+        background-color: rgb(255, 255, 255);
+      }
+
+      .corner {
+        position: absolute;
+        background-color: rgb(220, 220, 220);
+        width: 15%;
+        height: 15%;
+        position: absolute;
+      }
+
+      .corner-2 {
+        bottom: 0;
+      }
+
+      .corner-3 {
+        bottom: 0;
+        right: 0;
+      }
+
+      .corner-4 {
+        right: 0;
+      }
+
+      .rectangle {
+        position: absolute;
+        background-color: rgb(220, 220, 220);
+        box-sizing: border-box;
+      }
+
+      .rectangle-1 {
+        margin-left: calc(15% - 8px);
+        border-bottom: 8px solid black;
+        height: 15%;
+        width: calc(70% + 16px);
+      }
+
+      .rectangle-2 {
+        bottom: 0;
+        margin-left: calc(15% - 8px);
+        border-top: 8px solid black;
+        height: 15%;
+        width: calc(70% + 16px);
+      }
+
+      .rectangle-3 {
+        height: calc(70% + 16px);
+        width: 15%;
+        top: calc(15% - 8px);
+        border-right: 8px solid black;
+      }
+
+      .rectangle-4 {
+        height: calc(70% + 16px);
+        width: 15%;
+        top: calc(15% - 8px);
+        right: 0;
+        border-left: 8px solid black;
+      }
+
+      .rotating-cube {
+        position: absolute;
+        transform-style: preserve-3d;
+        width: 250px;
+        height: 250px;
+        transition: 0.7s ease-in-out;
+      }
+
+      .rotating-cube--rotated {
+        transform: rotatey(90deg);
+      }
+
+      .rotating-cube__top {
+        position: absolute;
+        background-color: rgb(220, 220, 220);
+        border: 8px solid black;
+        box-sizing: border-box;
+        width: 100px;
+        height: 400px;
+        translate: 75px 0px 50px;
+        cursor: pointer;
+        background: linear-gradient(
+          180deg,
+          rgb(255, 255, 255) 0%,
+          rgb(255 255 255) 50%,
+          rgb(220 220 220) 100%
+        );
+      }
+
+      .rotating-cube__front {
+        position: absolute;
+        background-color: rgb(220, 220, 220);
+        border: 8px solid black;
+        box-sizing: border-box;
+        width: 100px;
+        height: 400px;
+        transform: rotatey(90deg);
+        translate: 125px 0px 0px;
+        cursor: pointer;
+        background: linear-gradient(
+          180deg,
+          rgb(255, 255, 255) 0%,
+          rgb(255 255 255) 50%,
+          rgb(220 220 220) 100%
+        );
+      }
+
+      .rotating-cube__bottom {
+        position: absolute;
+        background-color: rgb(220, 220, 220);
+        border: 8px solid black;
+        box-sizing: border-box;
+        width: 100px;
+        height: 400px;
+        translate: 75px 0px -50px;
+        cursor: pointer;
+        background: linear-gradient(
+          180deg,
+          rgb(255, 255, 255) 0%,
+          rgb(255 255 255) 50%,
+          rgb(220 220 220) 100%
+        );
+      }
+
+      .rotating-cube__back {
+        position: absolute;
+        background-color: rgb(220, 220, 220);
+        border: 8px solid black;
+        box-sizing: border-box;
+        width: 100px;
+        height: 400px;
+        transform: rotatey(90deg);
+        translate: 25px 0px 0px;
+        cursor: pointer;
+        background: linear-gradient(
+          180deg,
+          rgb(255, 255, 255) 0%,
+          rgb(255 255 255) 50%,
+          rgb(220 220 220) 100%
+        );
+      }
+
+      .rotating-cube__left {
+        position: absolute;
+        background-color: rgb(220, 220, 220);
+        border: 8px solid black;
+        box-sizing: border-box;
+        width: 100px;
+        height: 100px;
+        transform: rotatex(90deg) rotatez(180deg) rotatey(180deg);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        translate: 75px 350px 0px;
+      }
+
+      .text {
+        opacity: 1;
+        width: 100%;
+        text-align: center;
+        font-size: 1.5rem;
+        font-family: sans-serif;
+        animation: fadeOut 0.5s ease-in 2s forwards;
+      }
+
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .bulb-cube {
+        position: absolute;
+        transform-style: preserve-3d;
+        width: 250px;
+        height: 250px;
+        translate: -72px;
+        transition: 0.7s ease-in-out;
+      }
+
+      .bulb-cube--opened {
+        translate: 0;
+      }
+
+      .bulb-cube__top {
+        position: absolute;
+        width: 75px;
+        height: 165px;
+        translate: 249px 42px 82px;
+        box-sizing: border-box;
+        border: 8px solid black;
+        background-color: white;
+      }
+
+      .bulb-cube__left {
+        position: absolute;
+        width: 75px;
+        height: 165px;
+        translate: 249px 125px 1px;
+        box-sizing: border-box;
+        border: 8px solid black;
+        transform: rotatex(90deg);
+        background-color: white;
+      }
+
+      .bulb-cube__front {
+        position: absolute;
+        width: 165px;
+        height: 165px;
+        translate: 241px 43px 0px;
+        box-sizing: border-box;
+        border: 8px solid black;
+        transform: rotatey(90deg);
+        background-color: rgb(220, 220, 220);
+      }
+
+      .bulb-light-left {
+        opacity: 0;
+        position: absolute;
+        width: 175px;
+        height: 165px;
+        translate: 249px 126px 1px;
+        box-sizing: border-box;
+        transform: rotatex(90deg);
+        background: linear-gradient(
+          90deg,
+          rgb(255, 255, 255) 0%,
+          rgba(255, 255, 255, 0.31) 50%,
+          rgba(255, 0, 0, 0) 100%
+        );
+        transition: 0.7s ease-in-out;
+      }
+
+      .bulb-light-top {
+        opacity: 0;
+        position: absolute;
+        width: 175px;
+        height: 165px;
+        translate: 249px 44px 83px;
+        box-sizing: border-box;
+        background: linear-gradient(
+          90deg,
+          rgb(255, 255, 255) 0%,
+          rgba(255, 255, 255, 0.31) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transition: 0.7s ease-in-out;
+      }
+
+      .bulb-light--on {
+        opacity: 0.4;
+      }
+
+      .light {
+        position: absolute;
+        width: 350px;
+        border-radius: 80%;
+        height: 350px;
+        background-color: rgb(255, 255, 255);
+        top: 75%;
+        left: 75%;
+        margin-top: -100%;
+        margin-left: -100%;
+        opacity: 0;
+        filter: blur(45px);
+        transition: 0.7s ease-in-out;
+      }
+
+      .light--on {
+        opacity: 0.3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="scene" id="scene">
+        <div class="main-cube">
+          <div class="bulb-light-top" id="top-light"></div>
+          <div class="bulb-light-left" id="left-light"></div>
+          <div class="rotating-light-bottom"></div>
+          <div class="rotating-light-back"></div>
+          <div class="side main-cube__side-top"></div>
+          <div class="side main-cube__side-front">
+            <div class="corner corner-1"></div>
+            <div class="corner corner-2"></div>
+            <div class="corner corner-3"></div>
+            <div class="corner corner-4"></div>
+            <div class="rectangle rectangle-1"></div>
+            <div class="rectangle rectangle-2"></div>
+            <div class="rectangle rectangle-3"></div>
+            <div class="rectangle rectangle-4"></div>
+            <div class="light" id="light"></div>
+          </div>
+          <div class="side main-cube__side-left">
+            <div class="corner corner-1"></div>
+            <div class="corner corner-2"></div>
+            <div class="corner corner-3"></div>
+            <div class="corner corner-4"></div>
+            <div class="rectangle rectangle-1"></div>
+            <div class="rectangle rectangle-2"></div>
+            <div class="rectangle rectangle-3"></div>
+            <div class="rectangle rectangle-4"></div>
+          </div>
+          <div class="inside hatching main-cube__inside main-cube__inside--bottom"></div>
+          <div class="inside hatching main-cube__inside main-cube__inside--back"></div>
+        </div>
+
+        <div class="rotating-cube" id="rotating-cube">
+          <div onclick="onButtonClick(event)" class="rotating-cube__top"></div>
+          <div onclick="onButtonClick(event)" class="rotating-cube__front"></div>
+          <div onclick="onButtonClick(event)" class="rotating-cube__bottom"></div>
+          <div onclick="onButtonClick(event)" class="rotating-cube__back"></div>
+          <div onclick="onButtonClick(event)" class="rotating-cube__left">
+            <p class="text">
+              Click Me</p>
+          </div>
+        </div>
+        <div class="bulb-cube" id="bulb-cube">
+          <div class="hatching bulb-cube__top"></div>
+          <div class="hatching bulb-cube__left"></div>
+          <div class="bulb-cube__front"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let rotatingCube = document.getElementById("rotating-cube");
+      let bubleCube = document.getElementById("bulb-cube");
+      let topLight = document.getElementById("top-light");
+      let leftLight = document.getElementById("left-light");
+      let light = document.getElementById("light");
+
+      const onButtonClick = (e) => {
+        rotatingCube.classList.toggle("rotating-cube--rotated");
+        bubleCube.classList.toggle("bulb-cube--opened");
+        topLight.classList.toggle("bulb-light--on");
+        leftLight.classList.toggle("bulb-light--on");
+        light.classList.toggle("light--on");
+      };
+    </script>
+  </body>
+</html>
